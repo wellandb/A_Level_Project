@@ -1,3 +1,4 @@
+#import pygame and random generator
 import pygame, random
 
 pygame.init()
@@ -12,39 +13,57 @@ screen = (screenWidth,screenHeight)
 win = pygame.display.set_mode(screen)
 win.fill((0,0,0))
 
-
-def redrawGameWindow():
-    pygame.display.update()
-
-class LevelGenerator():
+#walker to build floor
+class walker():
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.rect = pygame.Rect(x,y,5,5)
         self.direction = random.randint(1,5)
         self.alive = True
 
-    def move():
+    #movement
+    def move(self):
+        #check if alive
         if self.alive:
-#            self.death()
-            if self.direction == 1:
-                self.y -= 1
-            elif self.direction == 2:
-                self.x += 1
-            elif self.direction == 3:
-                self.y += 1
-            elif self.direction == 4:
-                self.x -= 1
- #           pygame.draw.rect(win,(255,0,0), (self.x, self.y, 1,1))
+            #chance to die
+            self.death()
+            #random direction
+            if self.direction == 1 and self.rect.y > 5:
+                self.rect.y -= 5
+            elif self.direction == 2 and self.rect.x < screenWidth - 5:
+                self.rect.x += 5
+            elif self.direction == 3 and self.rect.y < screenHeight - 5:
+                self.rect.y += 5
+            elif self.direction == 4 and self.rect.x > 5:
+                self.rect.x -= 5
+            #create floor
+            floor.append(floorTile(self.rect.x,self.rect.y))
             self.direction = random.randint(1,5)
     
-    def death():
-        die = random.randint(1,101)
+    #chance death
+    def death(self):
+        die = random.randint(1,1001)
         if die == 69:
             self.alive = False
 
+#floor tile
+class floorTile(object):
+    def __init__(self,x,y):
+        self.rect = pygame.Rect(x,y,5,5)
 
-
-walker = LevelGenerator(350,250)
+    def draw(self):
+        pygame.draw.rect(win,(255,0,0), (self.rect.x, self.rect.y, 5, 5))
+    
+#wall tile
+class wallTile(object):
+    def __init__(self,x,y):
+        self.rect = pygame.Rect(x,y,5,5)
+             
+#lists to store floor
+floor = []
+walls = []
+walkers = []
+for i in range(1,6):
+    walkers.append(walker(350,250))
 
 run = True
 while run:
@@ -55,8 +74,16 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     
-    walker.move()
-    redrawGameWindow()
+    for walker in walkers:
+        walker.move()
+    for tiles in floor:
+        tiles.draw()
+    if len(floor) >= 1000:
+        for walker in walkers:
+            walker.alive = False            
+
+    
+    pygame.display.update()
 
     
 
