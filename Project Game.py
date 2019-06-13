@@ -172,7 +172,7 @@ while run:
                 bullets.remove(bullet)
        
        # bullet-enemy collisions
-        enemy_hit_list = pygame.sprite.spritecollide(bullet, enemies, True)
+        enemy_hit_list = pygame.sprite.spritecollide(bullet, enemies, False)
         for enemy in enemy_hit_list:
             bullets.remove(bullet)
             if bullet.movingX:
