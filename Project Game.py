@@ -10,7 +10,6 @@ screenHeight = 500
 screen = (screenWidth,screenHeight)
 win = pygame.display.set_mode(screen)
 
-
 # intialise some colours
 red = (255, 0, 0)
 blue = (0, 0, 255)
@@ -40,10 +39,28 @@ class player(pygame.sprite.Sprite):
         self.right = False
         self.up = False
         self.down = True
+        self.reloadTime = 0
 
      #draw function
     def draw(self,win):
         pygame.draw.rect(win, red, self.rect)
+
+    def shoot(self):
+        # determines which way facing
+        if self.left or self.up:
+            facing = -1
+        else:
+            facing = 1
+        if self.left or self.right:
+            XorY = "X"
+        else:
+            XorY = "Y"
+        # max 5 bullets on screen at a time, makes bullet at centre of player and moves in direction facing, also adds delay between bullets
+        if len(bullets) < 5 and self.reloadTime == 0:
+           bullets.add(projectile(round(self.rect.x + self.rect.width//4),  round(self.rect.y + self.rect.height//4), 6, 10, blue, facing, XorY, 10))
+           self.reloadTime = 1
+        else:
+            self.reloadTime = 0
    
 # bullet class
 class projectile(pygame.sprite.Sprite):
@@ -69,7 +86,7 @@ class enemy(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
         super().__init__()
         self.rect = pygame.Rect(x,y,width,height)
-        self.vel = 1
+        self.vel = 2
         self.health = 3
 
     #draw function
@@ -119,7 +136,6 @@ for i in range(10):
 
 #projectiles
 bullets = pygame.sprite.Group()
-reloadTime = 0
 
 # draw game function
 def redrawGameWindow():
@@ -193,30 +209,18 @@ while run:
             gameOver()
             run = False
 
+    # enemy-enemy collisions
 
     # key press events
     keys = pygame.key.get_pressed()
 
     #shooting
     if keys[pygame.K_SPACE]:
-        # determines which way facing
-        if man.left or man.up:
-            facing = -1
-        else:
-            facing = 1
-        if man.left or man.right:
-            XorY = "X"
-        else:
-            XorY = "Y"
-        # max 5 bullets on screen at a time, makes bullet at centre of player and moves in direction facing, also adds delay between bullets
-        if len(bullets) < 5 and reloadTime == 0:
-           bullets.add(projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 6, 10, blue, facing, XorY, 10))
-           reloadTime = 1
-        else:
-            reloadTime = 0
+        man.shoot()
+        
 
 
-    #movement key presses with facing direction for shooting
+    # movement key presses with facing direction for shooting
     if keys[pygame.K_UP]:
         man.rect.y -= man.vel
         man.up = True
