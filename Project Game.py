@@ -88,6 +88,7 @@ class enemy(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x,y,width,height)
         self.vel = 2
         self.health = 3
+        self.canMove = True
 
     #draw function
     def draw(self,win):
@@ -96,15 +97,18 @@ class enemy(pygame.sprite.Sprite):
 
     #movement
     def move(self):
-        if self.rect.x < man.rect.x:
-            self.rect.x += self.vel
-        elif self.rect.x > man.rect.x:
-            self.rect.x -= self.vel
+        if self.canMove:
+            if self.rect.x < man.rect.x:
+                self.rect.x += self.vel
+            elif self.rect.x > man.rect.x:
+                self.rect.x -= self.vel
 
-        if self.rect.y < man.rect.y:
-            self.rect.y += self.vel
-        elif self.rect.y > man.rect.y:
-            self.rect.y -= self.vel
+            if self.rect.y < man.rect.y:
+                self.rect.y += self.vel
+            elif self.rect.y > man.rect.y:
+                self.rect.y -= self.vel
+        else:
+            self.canMove = True
     
     def shot(self):
         self.health -= 1
@@ -210,6 +214,13 @@ while run:
             run = False
 
     # enemy-enemy collisions
+    for enemy1 in enemies:
+        enemies2 = enemies.copy()
+        enemies2.remove_internal(enemy1)
+        for enemy2 in enemies2:
+            if pygame.sprite.collide_rect(enemy1, enemy2):
+                enemy1.canMove = False
+                
 
     # key press events
     keys = pygame.key.get_pressed()
