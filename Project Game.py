@@ -220,6 +220,23 @@ while run:
         for enemy2 in enemies2:
             if pygame.sprite.collide_rect(enemy1, enemy2):
                 enemy1.canMove = False
+                #bounce away mechanics
+                #if enemy2 hits to the right of enemy1
+                if enemy1.rect.x >= enemy2.rect.x - enemy1.rect.width and enemy1.rect.x < enemy2.rect.x:
+                    enemy1.rect.x -= 3
+                    enemy2.rect.x += 3
+                #if enemy2 hits to the left of enemy1
+                if enemy1.rect.x - enemy2.rect.width <= enemy2.rect.x and enemy1.rect.x > enemy2.rect.x:
+                    enemy1.rect.x += 3
+                    enemy2.rect.x -= 3
+                #if enemy2 hits from ontop of enemy1
+                if enemy1.rect.y <= enemy2.rect.y + enemy2.rect.height and enemy1.rect.y > enemy2.rect.y:
+                    enemy1.rect.y += 3
+                    enemy2.rect.y -= 3
+                #if enemy2 hits from below enemy1
+                if enemy1.rect.y >= enemy2.rect.y - enemy1.rect.height and enemy1.rect.y < enemy2.rect.y:
+                    enemy1.rect.y -= 3
+                    enemy2.rect.y += 3
                 
 
     # key press events
