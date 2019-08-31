@@ -54,9 +54,22 @@ class floorTile(object):
         pygame.draw.rect(win,(255,0,0), (self.rect.x, self.rect.y, 5, 5))
     
 #wall tile
-class wallTile(object):
+class wallTile(pygame.sprite.Sprite):
     def __init__(self,x,y):
         self.rect = pygame.Rect(x,y,5,5)
+
+class wallMaker():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class grid():
+    def __init__(self, width, height, size):
+        self.width = width
+        self.height = height
+        self.size = size
+    
+
              
 #lists to store floor
 floor = []
@@ -82,7 +95,8 @@ while run:
         for walker in walkers:
             walker.alive = False            
 
-    
+
+
     pygame.display.update()
 
     

@@ -116,6 +116,22 @@ class enemy(pygame.sprite.Sprite):
             enemies.remove(self)
         enemy_hit_list.remove(self)
 
+# camera class
+class camera():
+    def __init__(self, width, height):
+        self.rect = pygame.Rect( 0, 0, width, height)
+        self.width = width
+        self.height = height
+
+    def apply(self, entity):
+        return entity.rect.move(self.camera.topleft)
+
+    def update(self, target):
+        x = -target.rect.x + int(screenWidth/2)
+        y =  -target.rect.y + int(screenHeight/2)
+        self.camera = pygame.Rect(x, y, self.width, self.height)
+
+
 # game over function
 def gameOver():
     win.blit(myfont.render('Game Over', True, white), (screenWidth/2 - 125, 50))
@@ -126,6 +142,8 @@ def gameWin():
 
 #intialise objects
 all_sprite_list = pygame.sprite.Group()
+
+Camera = camera(screenWidth, screenHeight)
 
 # player
 man = player(250,350, 20, 20)
@@ -143,11 +161,10 @@ bullets = pygame.sprite.Group()
 
 # draw game function
 def redrawGameWindow():
-
+        
     man.draw(win)
     for enemy in enemies:
         enemy.draw(win)
-
     for bullet in bullets:
         bullet.draw(win)
     #display update window
