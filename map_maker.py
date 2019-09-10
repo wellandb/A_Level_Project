@@ -13,7 +13,8 @@ screen = (screenWidth,screenHeight)
 win = pygame.display.set_mode(screen)
 win.fill((0,0,0))
 
-grid = [["wall" * 350] * 250]
+rows, cols = (350, 250)
+grid = [['wall' for i in range(rows)] for j in range(cols)]
 
 
 #walker to build floor
