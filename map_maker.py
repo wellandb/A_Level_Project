@@ -40,9 +40,9 @@ class walker():
             elif self.direction == 4 and self.rect.x > 40:
                 self.rect.x -= 40
             #create floor
-            if grid[int(self.rect.x/40)][int(self.rect.y/40)] == 'wall':
+            if grid[int(self.rect.y/40)][int(self.rect.x/40)] == 'wall':
                 floor.append(floorTile(self.rect.x, self.rect.y))
-                grid[int(self.rect.x/40)][int(self.rect.y/40)] = 'floor'
+                grid[int(self.rect.y/40)][int(self.rect.x/40)] = 'floor'
                 print('wassup')
             self.direction = random.randint(1,5)
     
@@ -78,7 +78,7 @@ walkers = []
 
 
 for i in range(1,11):
-    walkers.append(walker(360,200))
+    walkers.append(walker(6920,4920))
 
 run = True
 while run:
@@ -93,10 +93,16 @@ while run:
         walker.move()
     for tiles in floor:
         tiles.draw()
+    for wall in walls:
+        wall.draw
     if len(floor) == 500:
         for walker in walkers:
             walker.alive = False
         print('ayo')
+        for i in range(cols):
+            for j in range(rows):
+                if grid[i][j] == 'wall':
+                    walls.append(wallTile(j*40, i*40))
 
 
     pygame.display.update()
