@@ -75,10 +75,10 @@ floor = []
 walls = []
 tiles = []
 walkers = []
-
+once = True
 
 for i in range(1,11):
-    walkers.append(walker(6920,4920))
+    walkers.append(walker(3600,2400))
 
 run = True
 while run:
@@ -99,10 +99,12 @@ while run:
         for walker in walkers:
             walker.alive = False
         print('ayo')
-        for i in range(cols):
-            for j in range(rows):
-                if grid[i][j] == 'wall':
-                    walls.append(wallTile(j*40, i*40))
+        if once:
+            for i in range(cols):
+                for j in range(rows):
+                    if grid[i][j] == 'wall':
+                        walls.append(wallTile(j*40, i*40))
+            once = False
 
 
     pygame.display.update()
