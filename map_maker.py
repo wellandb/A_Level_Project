@@ -43,7 +43,6 @@ class walker():
             if grid[int(self.rect.y/40)][int(self.rect.x/40)] == 'wall':
                 floor.append(floorTile(self.rect.x, self.rect.y))
                 grid[int(self.rect.y/40)][int(self.rect.x/40)] = 'floor'
-                print('wassup')
             self.direction = random.randint(1,5)
     
 
@@ -104,6 +103,7 @@ while run:
                 for j in range(rows):
                     if grid[i][j] == 'wall':
                         walls.append(wallTile(j*40, i*40))
+                        print('wall instatiated')
             once = False
 
 

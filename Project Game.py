@@ -1,6 +1,8 @@
 # import pygame
 import pygame, sys, random
 
+#from map_maker import *
+
 # initalise pygame
 pygame.init() 
 
