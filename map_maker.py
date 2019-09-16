@@ -13,6 +13,7 @@ screen = (screenWidth,screenHeight)
 win = pygame.display.set_mode(screen)
 win.fill((0,0,0))
 
+tileSize = 40
 rows, cols = (175, 125)
 grid = [['wall' for i in range(rows)] for j in range(cols)]
 
@@ -20,7 +21,7 @@ grid = [['wall' for i in range(rows)] for j in range(cols)]
 #walker to build floor
 class walker():
     def __init__(self, x, y):
-        self.rect = pygame.Rect(x,y,40,40)
+        self.rect = pygame.Rect(x,y,tileSize,tileSize)
         self.direction = random.randint(1,5)
         self.alive = True
 
@@ -31,18 +32,18 @@ class walker():
             #chance to die
             self.death()
             #random direction
-            if self.direction == 1 and self.rect.y > 40:
-                self.rect.y -= 40
-            elif self.direction == 2 and self.rect.x < 6960:
-                self.rect.x += 40
-            elif self.direction == 3 and self.rect.y < 4960:
-                self.rect.y += 40
-            elif self.direction == 4 and self.rect.x > 40:
-                self.rect.x -= 40
+            if self.direction == 1 and self.rect.y > tileSize:
+                self.rect.y -= tileSize
+            elif self.direction == 2 and self.rect.x < (rows - 1) * tileSize:
+                self.rect.x += tileSize
+            elif self.direction == 3 and self.rect.y < (cols - 1) * tileSize:
+                self.rect.y += tileSize
+            elif self.direction == 4 and self.rect.x > tileSize:
+                self.rect.x -= tileSize
             #create floor
-            if grid[int(self.rect.y/40)][int(self.rect.x/40)] == 'wall':
+            if grid[int(self.rect.y/tileSize)][int(self.rect.x/tileSize)] == 'wall':
                 floor.append(floorTile(self.rect.x, self.rect.y))
-                grid[int(self.rect.y/40)][int(self.rect.x/40)] = 'floor'
+                grid[int(self.rect.y/tileSize)][int(self.rect.x/tileSize)] = 'floor'
             self.direction = random.randint(1,5)
     
 
@@ -55,7 +56,7 @@ class walker():
 #floor tile
 class floorTile(object):
     def __init__(self,x,y):
-        self.rect = pygame.Rect(x,y,40,40)
+        self.rect = pygame.Rect(x,y,tileSize,tileSize)
 
     def draw(self):
         pygame.draw.rect(win,(255,0,0), self.rect)
@@ -63,7 +64,7 @@ class floorTile(object):
 #wall tile
 class wallTile(pygame.sprite.Sprite):
     def __init__(self,x,y):
-        self.rect = pygame.Rect(x,y,40,40)
+        self.rect = pygame.Rect(x,y,tileSize,tileSize)
 
     def draw(self):
         pygame.draw.rect(win, (0,255,0), self.rect)
@@ -102,7 +103,7 @@ while run:
             for i in range(cols):
                 for j in range(rows):
                     if grid[i][j] == 'wall':
-                        walls.append(wallTile(j*40, i*40))
+                        walls.append(wallTile(j*tileSize, i*tileSize))
                         print('wall instatiated')
             once = False
 
