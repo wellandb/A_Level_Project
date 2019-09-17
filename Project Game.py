@@ -42,6 +42,7 @@ class player(pygame.sprite.Sprite):
         self.up = False
         self.down = True
         self.reloadTime = 0
+        self.image = pygame.draw.rect(win, red, self.rect)
 
      #draw function
     def draw(self,win):
@@ -91,6 +92,7 @@ class enemy(pygame.sprite.Sprite):
         self.vel = 2
         self.health = 3
         self.canMove = True
+        self.image = pygame.draw.rect(win, green, self.rect)
 
     #draw function
     def draw(self,win):
@@ -164,6 +166,7 @@ bullets = pygame.sprite.Group()
 # draw game function
 def redrawGameWindow():
         
+#    all_sprite_list.draw(win)
     man.draw(win)
     for enemy in enemies:
         enemy.draw(win)
