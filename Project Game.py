@@ -128,7 +128,7 @@ class camera():
         self.height = height
 
     def apply(self, entity):
-        return entity.rect.move(self.camera.topleft)
+        return entity.rect.move(self.rect.topleft)
 
     def update(self, target):
         x = -target.rect.x + int(screenWidth/2)
@@ -165,11 +165,13 @@ bullets = pygame.sprite.Group()
 
 # draw game function
 def redrawGameWindow():
-        
-#    all_sprite_list.draw(win)
-    man.draw(win)
-    for enemy in enemies:
-        enemy.draw(win)
+    
+    Camera.update(man)
+    for sprite in all_sprite_list:
+        Camera.apply(sprite)
+        sprite.draw(win)
+#        win.blit(sprite.image, Camera.apply(sprite))
+
     for bullet in bullets:
         bullet.draw(win)
     #display update window
