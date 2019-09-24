@@ -1,17 +1,5 @@
-#import pygame and random generator
-import pygame, random
+from settings import *
 
-pygame.init()
-
-pygame.display.set_caption('Map generation')
-
-clock = pygame.time.Clock()
-
-screenWidth = 700
-screenHeight = 500
-screen = (screenWidth,screenHeight)
-win = pygame.display.set_mode(screen)
-win.fill((0,0,0))
 
 tileSize = 40
 rows, cols = (175, 125)

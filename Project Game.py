@@ -97,7 +97,7 @@ class enemy(pygame.sprite.Sprite):
     #draw function
     def draw(self,win):
         self.move()
-        pygame.draw.rect(win, green, self.rect)
+        pygame.draw.rect(win, green, Camera.apply(self), (self.rect.width, self.rect.height))
 
     #movement
     def move(self):
@@ -118,6 +118,7 @@ class enemy(pygame.sprite.Sprite):
         self.health -= 1
         if self.health == 0:
             enemies.remove(self)
+            all_sprite_list.remove(self)
         enemy_hit_list.remove(self)
 
 # camera class
@@ -127,13 +128,15 @@ class camera():
         self.width = width
         self.height = height
 
+# returns position relative to camera
     def apply(self, entity):
-        return entity.rect.move(self.rect.topleft)
+        return (int(entity.rect.x - self.rect.x), int(entity.rect.y - self.rect.y))
 
+# updates camera position so that target is in middle of camera
     def update(self, target):
-        x = -target.rect.x + int(screenWidth/2)
-        y =  -target.rect.y + int(screenHeight/2)
-        self.camera = pygame.Rect(x, y, self.width, self.height)
+        x = target.rect.x - int(screenWidth/2)
+        y =  target.rect.y - int(screenHeight/2)
+        self.rect = pygame.Rect(x, y, self.width, self.height)
 
 
 # game over function
