@@ -1,3 +1,6 @@
+import pygame
+pygame.init()
+# bullet class
 class projectile(pygame.sprite.Sprite):
     def __init__(self,x,y,height, width,colour,facing, XorY, velocity):
         super().__init__()

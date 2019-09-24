@@ -1,125 +1,14 @@
 # import pygame
 import pygame, sys, random
 
+from settings import *
 #from map_maker import *
+from player import *
+from enemies import *
+from projectiles import *
 
-# initalise pygame
-pygame.init() 
-
-#window
-screenWidth = 700
-screenHeight = 500
-screen = (screenWidth,screenHeight)
-win = pygame.display.set_mode(screen)
-
-# intialise some colours
-red = (255, 0, 0)
-blue = (0, 0, 255)
-green = (0, 255, 0)
-black = (0,0,0)
-white = (255,255,255)
-
-# text set up
-pygame.font.init()
-myfont = pygame.font.SysFont('Arial', 50)
-
-# setting a caption for game window
-pygame.display.set_caption('Game Project')
-
-# setting up clock
-clock = pygame.time.Clock()
 
 # classes
-#player class
-class player(pygame.sprite.Sprite):
-    #initialisation
-    def __init__ (self, x, y, width, height):
-        super().__init__()
-        self.rect = pygame.Rect(x, y, width, height)
-        self.vel = 5
-        self.left = False
-        self.right = False
-        self.up = False
-        self.down = True
-        self.reloadTime = 0
-        self.image = pygame.draw.rect(win, red, self.rect)
-
-     #draw function
-    def draw(self,win):
-        pygame.draw.rect(win, red, self.rect)
-
-    def shoot(self):
-        # determines which way facing
-        if self.left or self.up:
-            facing = -1
-        else:
-            facing = 1
-        if self.left or self.right:
-            XorY = "X"
-        else:
-            XorY = "Y"
-        # max 5 bullets on screen at a time, makes bullet at centre of player and moves in direction facing, also adds delay between bullets
-        if len(bullets) < 5 and self.reloadTime == 0:
-           bullets.add(projectile(round(self.rect.x + self.rect.width//4),  round(self.rect.y + self.rect.height//4), 6, 10, blue, facing, XorY, 10))
-           self.reloadTime = 1
-        else:
-            self.reloadTime = 0
-   
-# bullet class
-class projectile(pygame.sprite.Sprite):
-    def __init__(self,x,y,height, width,colour,facing, XorY, velocity):
-        super().__init__()
-        self.rect = pygame.Rect(x,y,width,height)
-        self.colour = colour
-        self.vel = velocity * facing
-        if XorY == "X":
-            self.movingX = True
-            self.movingY = False
-        else:
-            self.movingY = True
-            self.movingX = False
-
-    def draw(self, win):
-        pygame.draw.rect(win, self.colour, self.rect)
-
-
-# enemy class
-class enemy(pygame.sprite.Sprite):
-
-    def __init__(self,x,y,width,height):
-        super().__init__()
-        self.rect = pygame.Rect(x,y,width,height)
-        self.vel = 2
-        self.health = 3
-        self.canMove = True
-        self.image = pygame.draw.rect(win, green, self.rect)
-
-    #draw function
-    def draw(self,win):
-        self.move()
-        pygame.draw.rect(win, green, Camera.apply(self), (self.rect.width, self.rect.height))
-
-    #movement
-    def move(self):
-        if self.canMove:
-            if self.rect.x < man.rect.x:
-                self.rect.x += self.vel
-            elif self.rect.x > man.rect.x:
-                self.rect.x -= self.vel
-
-            if self.rect.y < man.rect.y:
-                self.rect.y += self.vel
-            elif self.rect.y > man.rect.y:
-                self.rect.y -= self.vel
-        else:
-            self.canMove = True
-    
-    def shot(self):
-        self.health -= 1
-        if self.health == 0:
-            enemies.remove(self)
-            all_sprite_list.remove(self)
-        enemy_hit_list.remove(self)
 
 # camera class
 class camera():
@@ -170,9 +59,11 @@ bullets = pygame.sprite.Group()
 def redrawGameWindow():
     
     Camera.update(man)
-    for sprite in all_sprite_list:
+    for sprite in all_sprite_list:    
         Camera.apply(sprite)
         sprite.draw(win)
+    for enemy in enemies:
+        enemy.move(man)
 #        win.blit(sprite.image, Camera.apply(sprite))
 
     for bullet in bullets:
@@ -232,7 +123,7 @@ while run:
                     enemy.rect.y += 3
                 else:
                     enemy.rect.y -= 3                
-            enemy.shot()
+            enemy.shot(enemies, all_sprite_list, enemy_hit_list)
 
     # enemy-player collisions
     for enemy in enemies:
@@ -271,9 +162,8 @@ while run:
 
     #shooting
     if keys[pygame.K_SPACE]:
-        man.shoot()
+        man.shoot(bullets, projectile)
         
-
 
     # movement key presses with facing direction for shooting
     if keys[pygame.K_UP]:
