@@ -7,9 +7,6 @@ from player import *
 from enemies import *
 from projectiles import *
 
-
-# classes
-
 # camera class
 class camera():
     def __init__(self, width, height):
@@ -19,12 +16,12 @@ class camera():
 
 # returns position relative to camera
     def apply(self, entity):
-        return (int(entity.rect.x - self.rect.x), int(entity.rect.y - self.rect.y))
+        return entity.rect.move(self.rect.topleft)
 
 # updates camera position so that target is in middle of camera
     def update(self, target):
-        x = target.rect.x - int(screenWidth/2)
-        y =  target.rect.y - int(screenHeight/2)
+        x = -target.rect.x + int(screenWidth/2)
+        y =  -target.rect.y + int(screenHeight/2)
         self.rect = pygame.Rect(x, y, self.width, self.height)
 
 
@@ -60,14 +57,11 @@ def redrawGameWindow():
     
     Camera.update(man)
     for sprite in all_sprite_list:    
-        Camera.apply(sprite)
-        sprite.draw(win)
+        sprite.draw(win, Camera.apply(sprite))
     for enemy in enemies:
         enemy.move(man)
 #        win.blit(sprite.image, Camera.apply(sprite))
 
-    for bullet in bullets:
-        bullet.draw(win)
     #display update window
     pygame.display.update()
    # fill window with black background
@@ -94,25 +88,28 @@ while run:
     # bullets
     for bullet in bullets:
         if bullet.movingX:
-            if bullet.rect.x <screenWidth and bullet.rect.x >0:
+            if bullet.rect.x < screenWidth and bullet.rect.x > Camera.rect.x:
                 bullet.rect.x += bullet.vel
             else:
                 bullets.remove(bullet)
+                all_sprite_list.remove(bullet)
         
         # changes bullet dimensions
         if bullet.movingY:
             temp = bullet.rect.width
             bullet.rect.width = bullet.rect.height
             bullet.rect.height = bullet.rect.width
-            if bullet.rect.y < screenHeight and bullet.rect.y > 0:
+            if bullet.rect.y < (Camera.rect.y + screenHeight) and bullet.rect.y > Camera.rect.y:
                 bullet.rect.y += bullet.vel
             else:
                 bullets.remove(bullet)
+                all_sprite_list.remove(bullet)
        
        # bullet-enemy collisions
         enemy_hit_list = pygame.sprite.spritecollide(bullet, enemies, False)
         for enemy in enemy_hit_list:
             bullets.remove(bullet)
+            all_sprite_list.remove(bullet)
             if bullet.movingX:
                 if bullet.vel > 0:
                     enemy.rect.x += 3
@@ -162,7 +159,7 @@ while run:
 
     #shooting
     if keys[pygame.K_SPACE]:
-        man.shoot(bullets, projectile)
+        man.shoot(bullets, projectile, all_sprite_list)
         
 
     # movement key presses with facing direction for shooting

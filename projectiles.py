@@ -14,5 +14,5 @@ class projectile(pygame.sprite.Sprite):
             self.movingY = True
             self.movingX = False
 
-    def draw(self, win):
-        pygame.draw.rect(win, self.colour, self.rect)
+    def draw(self, win, coords):
+        pygame.draw.rect(win, self.colour, coords)
