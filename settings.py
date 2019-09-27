@@ -1,5 +1,6 @@
 #import pygame and random generator
 import pygame, random, sys
+# initialise pygame
 pygame.init()
 
 # intialise some colours

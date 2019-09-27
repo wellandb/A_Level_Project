@@ -13,6 +13,9 @@ class projectile(pygame.sprite.Sprite):
         else:
             self.movingY = True
             self.movingX = False
+            temp = self.rect.width
+            self.rect.width = self.rect.height
+            self.rect.height = temp
 
     def draw(self, win, coords):
         pygame.draw.rect(win, self.colour, coords)

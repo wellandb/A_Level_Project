@@ -1,5 +1,7 @@
-from settings import *
-
+#import pygame and random generator
+import pygame, random, sys
+# initialise pygame
+pygame.init()
 
 tileSize = 40
 rows, cols = (175, 125)
@@ -46,16 +48,16 @@ class floorTile(object):
     def __init__(self,x,y):
         self.rect = pygame.Rect(x,y,tileSize,tileSize)
 
-    def draw(self):
-        pygame.draw.rect(win,(255,0,0), self.rect)
+    def draw(self, win , coords):
+        pygame.draw.rect(win,(255,255,255), coords)
     
 #wall tile
 class wallTile(pygame.sprite.Sprite):
     def __init__(self,x,y):
         self.rect = pygame.Rect(x,y,tileSize,tileSize)
 
-    def draw(self):
-        pygame.draw.rect(win, (0,255,0), self.rect)
+    def draw(self, win, coords):
+        pygame.draw.rect(win, (255,162,162), coords)
 
 
 #lists to store floor
@@ -64,6 +66,9 @@ walls = []
 tiles = []
 walkers = []
 once = True
+
+# setting up clock
+clock = pygame.time.Clock()
 
 for i in range(1,11):
     walkers.append(walker(3600,2400))
@@ -79,21 +84,17 @@ while run:
     
     for walker in walkers:
         walker.move()
-    for tiles in floor:
-        tiles.draw()
-    for wall in walls:
-        wall.draw
-    if len(floor) == 500:
+
+    if len(floor) > 250:
         for walker in walkers:
             walker.alive = False
-        print('ayo')
         if once:
             for i in range(cols):
                 for j in range(rows):
                     if grid[i][j] == 'wall':
                         walls.append(wallTile(j*tileSize, i*tileSize))
                         print('wall instatiated')
-            once = False
+            run = False
 
 
     pygame.display.update()

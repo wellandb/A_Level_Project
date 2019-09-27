@@ -2,7 +2,7 @@
 import pygame, sys, random
 
 from settings import *
-#from map_maker import *
+from map_maker import *
 from player import *
 from enemies import *
 from projectiles import *
@@ -39,13 +39,13 @@ all_sprite_list = pygame.sprite.Group()
 Camera = camera(screenWidth, screenHeight)
 
 # player
-man = player(250,350, 20, 20)
+man = player(3800, 2500, 20, 20)
 all_sprite_list.add(man)
 
 #enemies
 enemies = pygame.sprite.Group()
 for i in range(10):
-    i = enemy(random.randint(10,screenWidth-30),random.randint(10,screenHeight/2), 20, 20)
+    i = enemy(random.randint(3540 , 3540 + screenWidth -30),random.randint(2360, 2360 + screenHeight/2), 20, 20)
     enemies.add(i)
     all_sprite_list.add(i)
 
@@ -60,6 +60,10 @@ def redrawGameWindow():
         sprite.draw(win, Camera.apply(sprite))
     for enemy in enemies:
         enemy.move(man)
+    for tile in floor:
+        tile.draw(win, Camera.apply(tile))
+    for wall in walls:
+        wall.draw(win, Camera.apply(tile))
 #        win.blit(sprite.image, Camera.apply(sprite))
 
     #display update window
@@ -88,7 +92,7 @@ while run:
     # bullets
     for bullet in bullets:
         if bullet.movingX:
-            if bullet.rect.x < screenWidth and bullet.rect.x > Camera.rect.x:
+            if bullet.rect.x < screenWidth/2 + man.rect.x and bullet.rect.x > man.rect.x - screenWidth/2:
                 bullet.rect.x += bullet.vel
             else:
                 bullets.remove(bullet)
@@ -96,10 +100,7 @@ while run:
         
         # changes bullet dimensions
         if bullet.movingY:
-            temp = bullet.rect.width
-            bullet.rect.width = bullet.rect.height
-            bullet.rect.height = bullet.rect.width
-            if bullet.rect.y < (Camera.rect.y + screenHeight) and bullet.rect.y > Camera.rect.y:
+            if bullet.rect.y < man.rect.y + screenHeight/2 and bullet.rect.y > man.rect.y - screenHeight/2:
                 bullet.rect.y += bullet.vel
             else:
                 bullets.remove(bullet)
@@ -115,7 +116,7 @@ while run:
                     enemy.rect.x += 3
                 else:
                     enemy.rect.x -= 3
-            else:
+            else:         
                 if bullet.vel > 0:
                     enemy.rect.y += 3
                 else:
