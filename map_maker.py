@@ -5,7 +5,7 @@ pygame.init()
 
 tileSize = 40
 rows, cols = (175, 125)
-grid = [['wall' for i in range(rows)] for j in range(cols)]
+grid = [['' for i in range(rows)] for j in range(cols)]
 
 
 #walker to build floor
@@ -31,7 +31,7 @@ class walker():
             elif self.direction == 4 and self.rect.x > tileSize:
                 self.rect.x -= tileSize
             #create floor
-            if grid[int(self.rect.y/tileSize)][int(self.rect.x/tileSize)] == 'wall':
+            if grid[int(self.rect.y/tileSize)][int(self.rect.x/tileSize)] == '':
                 floor.append(floorTile(self.rect.x, self.rect.y))
                 grid[int(self.rect.y/tileSize)][int(self.rect.x/tileSize)] = 'floor'
             self.direction = random.randint(1,5)
@@ -91,9 +91,41 @@ while run:
         if once:
             for i in range(cols):
                 for j in range(rows):
-                    if grid[i][j] == 'wall':
-                        walls.append(wallTile(j*tileSize, i*tileSize))
-                        print('wall instatiated')
+                    if grid[i][j] == 'floor':
+                        if i > 0:
+                            if grid[i-1][j] == '':
+                                grid[i-1][j] = 'wall'
+                                walls.append(wallTile(j*tileSize, (i-1)*tileSize))
+                        if i > 0 and j > 0:
+                            if grid[i-1][j-1] == '':
+                                grid[i-1][j-1] = 'wall'
+                                walls.append(wallTile((j-1)*tileSize, (i-1)*tileSize))
+                        if i > 0 and j < rows:
+                            if grid[i-1][j+1] == '':
+                                grid[i-1][j+1] = 'wall'
+                                walls.append(wallTile((j+1)*tileSize, (i-1)*tileSize))
+                        if j > 0:
+                            if grid[i][j-1] == '':
+                                grid[i][j -1] = 'wall'
+                                walls.append(wallTile((j-1)*tileSize, (i)*tileSize))
+                        if j < rows:
+                            if grid[i][j+1] == '':
+                                grid[i][j+1] = 'wall'
+                                walls.append(wallTile((j+1)*tileSize, (i)*tileSize))
+                        if i < cols:
+                            if grid[i+1][j] == '':
+                                grid[i+1][j] = 'wall'
+                                walls.append(wallTile((j)*tileSize, (i+1)*tileSize))
+                        if i < cols and j > 0:
+                            if grid[i+1][j-1] == '':
+                                grid[i+1][j-1] = 'wall'
+                                walls.append(wallTile((j-1)*tileSize, (i+1)*tileSize))
+                        if i < cols and j < rows:
+                            if grid[i+1][j+1] == '':
+                                grid[i+1][j+1] = 'wall'
+                                walls.append(wallTile((j+1)*tileSize, (i+1)*tileSize))
+            once = False
+                                        
             run = False
 
 
