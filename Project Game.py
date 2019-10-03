@@ -47,17 +47,23 @@ for i in range(10):
     all_sprite_list.add(i)
 
 # player
+# choosing spawn point that is far away enough from all enemies that you don't die staright away
+canSpawn = False
 spawn = False
 while not spawn:
     playerTileSpawn = floor[random.randint(0,len(floor) - 1)]
     for enemy in enemies:
         #check if player spawn is too close to an enemy in the x axis
-        if playerTileSpawn.rect.x - 2*tileSize > enemy.rect.x or playerTileSpawn.rect.x + 2*tileSize < enemy.rect.x:
+        if playerTileSpawn.rect.x - (5 * tileSize) > enemy.rect.x or playerTileSpawn.rect.x + (5 * tileSize) < enemy.rect.x:
             #check if player spawn is too close to an enemy in the y axis
-            if playerTileSpawn.rect.y - 2*tileSize > enemy.rect.y or playerTileSpawn.rect.y + 2*tileSize < enemy.rect.y:
-                man = player(3800, 2700, 20, 20)
-                all_sprite_list.add(man)
-                spawn = True
+            if playerTileSpawn.rect.y - (5 * tileSize) > enemy.rect.y or playerTileSpawn.rect.y + (5 * tileSize) < enemy.rect.y:
+                canSpawn = True
+    if canSpawn:
+        playerX = playerTileSpawn.rect.x + tileSize/4
+        playerY = playerTileSpawn.rect.y + tileSize/4
+        man = player(playerX, playerY , 20, 20)
+        all_sprite_list.add(man)
+        spawn = True
 
 #projectiles
 bullets = pygame.sprite.Group()
