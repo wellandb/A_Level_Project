@@ -25,29 +25,39 @@ class camera():
         self.rect = pygame.Rect(x, y, self.width, self.height)
 
 
-# game over function
-def gameOver():
-    win.blit(myfont.render('Game Over', True, white), (screenWidth/2 - 125, 50))
+# game over variable
+gameOver = False
 
-# game win funtion
-def gameWin():
-    win.blit(myfont.render('Game Win', True, white), (screenWidth/2 - 125, 50))
+# game win variable
+gameWin = False
 
 #intialise objects
 all_sprite_list = pygame.sprite.Group()
 
 Camera = camera(screenWidth, screenHeight)
 
-# player
-man = player(3800, 2700, 20, 20)
-all_sprite_list.add(man)
-
 #enemies
 enemies = pygame.sprite.Group()
 for i in range(10):
-    i = enemy(random.randint(3540 , 3540 + screenWidth - 30),random.randint(2360, 2360 + screenHeight/2), 20, 20)
+    tileSpawn = floor[random.randint(0,len(floor) - 1)]
+    enemyX = tileSpawn.rect.x + tileSize/4
+    enemyY = tileSpawn.rect.y + tileSize/4
+    i = enemy(enemyX,enemyY, 20, 20)
     enemies.add(i)
     all_sprite_list.add(i)
+
+# player
+spawn = False
+while not spawn:
+    playerTileSpawn = floor[random.randint(0,len(floor) - 1)]
+    for enemy in enemies:
+        #check if player spawn is too close to an enemy in the x axis
+        if playerTileSpawn.rect.x - 2*tileSize > enemy.rect.x or playerTileSpawn.rect.x + 2*tileSize < enemy.rect.x:
+            #check if player spawn is too close to an enemy in the y axis
+            if playerTileSpawn.rect.y - 2*tileSize > enemy.rect.y or playerTileSpawn.rect.y + 2*tileSize < enemy.rect.y:
+                man = player(3800, 2700, 20, 20)
+                all_sprite_list.add(man)
+                spawn = True
 
 #projectiles
 bullets = pygame.sprite.Group()
@@ -65,7 +75,10 @@ def redrawGameWindow():
     for enemy in enemies:
         enemy.move(man)
 
-#        win.blit(sprite.image, Camera.apply(sprite))
+    if gameOver:
+        win.blit(myfont.render('Game Over', True, white), (screenWidth/2 - 125, 50))
+    if gameWin:
+        win.blit(myfont.render('Game Win', True, white), (screenWidth/2 - 125, 50))
 
     #display update window
     pygame.display.update()
@@ -86,7 +99,7 @@ while run:
     
     # check if there are no enemies
     if enemies.__len__() == 0:
-        gameWin()
+        gameWin = True
         run = False
     
     # bullets
@@ -126,7 +139,7 @@ while run:
     # enemy-player collisions
     for enemy in enemies:
         if pygame.sprite.collide_rect(enemy, man):
-            gameOver()
+            gameOver = True
             run = False
 
     # enemy-enemy collisions
