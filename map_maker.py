@@ -49,7 +49,7 @@ class floorTile(object):
         self.rect = pygame.Rect(x,y,tileSize,tileSize)
 
     def draw(self, win , coords):
-        pygame.draw.rect(win,(255,255,255), coords)
+        pygame.draw.rect(win,(125,125,255), coords)
     
 #wall tile
 class wallTile(pygame.sprite.Sprite):
@@ -84,6 +84,9 @@ while run:
     
     for walker in walkers:
         walker.move()
+
+    percentDone = int((len(floor)/250) * 100)
+    print(percentDone, '%')
 
     if len(floor) > 250:
         for walker in walkers:
@@ -130,5 +133,3 @@ while run:
 
 
     pygame.display.update()
- 
-pygame.quit()

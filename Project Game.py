@@ -39,13 +39,13 @@ all_sprite_list = pygame.sprite.Group()
 Camera = camera(screenWidth, screenHeight)
 
 # player
-man = player(3800, 2500, 20, 20)
+man = player(3800, 2700, 20, 20)
 all_sprite_list.add(man)
 
 #enemies
 enemies = pygame.sprite.Group()
 for i in range(10):
-    i = enemy(random.randint(3540 , 3540 + screenWidth -30),random.randint(2360, 2360 + screenHeight/2), 20, 20)
+    i = enemy(random.randint(3540 , 3540 + screenWidth - 30),random.randint(2360, 2360 + screenHeight/2), 20, 20)
     enemies.add(i)
     all_sprite_list.add(i)
 
@@ -56,14 +56,15 @@ bullets = pygame.sprite.Group()
 def redrawGameWindow():
     
     Camera.update(man)
+    for tile in floor:
+        tile.draw(win, Camera.apply(tile))
+    for wall in walls:
+        wall.draw(win, Camera.apply(wall))
     for sprite in all_sprite_list:    
         sprite.draw(win, Camera.apply(sprite))
     for enemy in enemies:
         enemy.move(man)
-    for tile in floor:
-        tile.draw(win, Camera.apply(tile))
-    for wall in walls:
-        wall.draw(win, Camera.apply(tile))
+
 #        win.blit(sprite.image, Camera.apply(sprite))
 
     #display update window
@@ -74,7 +75,6 @@ def redrawGameWindow():
 #main loop
 run = True
 while run:
-
     # set clock
     clock.tick(30)
 
@@ -192,6 +192,7 @@ while run:
     # display loop updates
     redrawGameWindow()
 
+# another loop to pause the screen once dead so player can look at the game over screen before quiting
 while not run:
 
     clock.tick(30)
