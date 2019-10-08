@@ -158,21 +158,44 @@ while run:
                 #bounce away mechanics
                 #if enemy2 hits to the right of enemy1
                 if enemy1.rect.x >= enemy2.rect.x - enemy1.rect.width and enemy1.rect.x < enemy2.rect.x:
-                    enemy1.rect.x -= 3
-                    enemy2.rect.x += 3
+                    enemy1.rect.x -= 2
+                    enemy2.rect.x += 2
                 #if enemy2 hits to the left of enemy1
                 if enemy1.rect.x - enemy2.rect.width <= enemy2.rect.x and enemy1.rect.x > enemy2.rect.x:
-                    enemy1.rect.x += 3
-                    enemy2.rect.x -= 3
+                    enemy1.rect.x += 2
+                    enemy2.rect.x -= 2
                 #if enemy2 hits from ontop of enemy1
                 if enemy1.rect.y <= enemy2.rect.y + enemy2.rect.height and enemy1.rect.y > enemy2.rect.y:
-                    enemy1.rect.y += 3
-                    enemy2.rect.y -= 3
+                    enemy1.rect.y += 2
+                    enemy2.rect.y -= 2
                 #if enemy2 hits from below enemy1
                 if enemy1.rect.y >= enemy2.rect.y - enemy1.rect.height and enemy1.rect.y < enemy2.rect.y:
-                    enemy1.rect.y -= 3
-                    enemy2.rect.y += 3
+                    enemy1.rect.y -= 2
+                    enemy2.rect.y += 2
                 
+    #bullet-wall collisions
+    
+    #enemy-wall collisions
+    for enemy in enemies:
+        for wall in walls:
+            if pygame.sprite.collide_rect(enemy, wall):               
+                enemy.canMove = False
+                #bounce away mechanics
+                #if enemy hits to the right of wall
+                if wall.rect.x >= enemy.rect.x - wall.rect.width and wall.rect.x < enemy.rect.x:
+                    enemy.rect.x += 2
+                #if enemy hits to the left of wall
+                if wall.rect.x - enemy.rect.width <= enemy.rect.x and wall.rect.x > enemy.rect.x:
+                    enemy.rect.x -= 2
+                #if enemy hits from ontop of wall
+                if wall.rect.y <= enemy.rect.y + enemy.rect.height and wall.rect.y > enemy.rect.y:
+                    enemy.rect.y -= 2
+                #if enemy hits from below wall
+                if wall.rect.y >= enemy.rect.y - wall.rect.height and wall.rect.y < enemy.rect.y:
+                    enemy.rect.y += 2
+
+    #player-wall collisions
+
 
     # key press events
     keys = pygame.key.get_pressed()
