@@ -183,28 +183,32 @@ while run:
                 #bounce away mechanics
                 #if enemy hits to the right of wall
                 if wall.rect.x >= enemy.rect.x - wall.rect.width and wall.rect.x < enemy.rect.x:
-                    enemy.rect.x += 2
+                    enemy.rect.x += 3
                 #if enemy hits to the left of wall
                 if wall.rect.x - enemy.rect.width <= enemy.rect.x and wall.rect.x > enemy.rect.x:
-                    enemy.rect.x -= 2
+                    enemy.rect.x -= 3
                 #if enemy hits from ontop of wall
                 if wall.rect.y <= enemy.rect.y + enemy.rect.height and wall.rect.y > enemy.rect.y:
-                    enemy.rect.y -= 2
+                    enemy.rect.y -= 3
                 #if enemy hits from below wall
                 if wall.rect.y >= enemy.rect.y - wall.rect.height and wall.rect.y < enemy.rect.y:
-                    enemy.rect.y += 2
+                    enemy.rect.y += 3
 
     #player-wall collisions
     for wall in walls:
         if pygame.sprite.collide_rect(man,wall):
+            #if player is to the right
             if wall.rect.x >= man.rect.x - wall.rect.width and wall.rect.x < man.rect.x:
-                man.rect.x += (man.vel + 2)
+                man.rect.x += (man.vel)
+                # if the player is to the left
             if wall.rect.x <= man.rect.x + man.rect.width and wall.rect.x > man.rect.x:
-                man.rect.x -= (man.vel + 2)
+                man.rect.x -= (man.vel)
+            #if the player is below the wall
             if wall.rect.y >= man.rect.y - wall.rect.height and wall.rect.y < man.rect.y:
-                man.rect.y += (man.vel + 2)
+                man.rect.y += (man.vel)
+            # if the player is above the wall
             if wall.rect.y <= man.rect.y + man.rect.height and wall.rect.y > man.rect.y:
-                man.rect.y += (man.vel + 2)
+                man.rect.y += (man.vel)
                 
 
     # key press events
