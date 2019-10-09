@@ -195,7 +195,17 @@ while run:
                     enemy.rect.y += 2
 
     #player-wall collisions
-
+    for wall in walls:
+        if pygame.sprite.collide_rect(man,wall):
+            if wall.rect.x >= man.rect.x - wall.rect.width and wall.rect.x < man.rect.x:
+                man.rect.x += (man.vel + 2)
+            if wall.rect.x <= man.rect.x + man.rect.width and wall.rect.x > man.rect.x:
+                man.rect.x -= (man.vel + 2)
+            if wall.rect.y >= man.rect.y - wall.rect.height and wall.rect.y < man.rect.y:
+                man.rect.y += (man.vel + 2)
+            if wall.rect.y <= man.rect.y + man.rect.height and wall.rect.y > man.rect.y:
+                man.rect.y += (man.vel + 2)
+                
 
     # key press events
     keys = pygame.key.get_pressed()
