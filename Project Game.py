@@ -174,7 +174,12 @@ while run:
                     enemy2.rect.y += 2
                 
     #bullet-wall collisions
-    
+    for bullet in bullets:
+        for wall in walls:
+            if pygame.sprite.collide_rect(bullet, wall):
+                bullets.remove(bullet)
+                all_sprite_list.remove(bullet)
+
     #enemy-wall collisions
     for enemy in enemies:
         for wall in walls:
@@ -199,16 +204,16 @@ while run:
         if pygame.sprite.collide_rect(man,wall):
             #if player is to the right
             if wall.rect.x >= man.rect.x - wall.rect.width and wall.rect.x < man.rect.x:
-                man.rect.x += (man.vel)
+                man.rect.x += (man.vel + 1)
                 # if the player is to the left
             if wall.rect.x <= man.rect.x + man.rect.width and wall.rect.x > man.rect.x:
-                man.rect.x -= (man.vel)
+                man.rect.x -= (man.vel + 1)
             #if the player is below the wall
             if wall.rect.y >= man.rect.y - wall.rect.height and wall.rect.y < man.rect.y:
-                man.rect.y += (man.vel)
+                man.rect.y += (man.vel + 1)
             # if the player is above the wall
             if wall.rect.y <= man.rect.y + man.rect.height and wall.rect.y > man.rect.y:
-                man.rect.y += (man.vel)
+                man.rect.y += (man.vel + 1)
                 
 
     # key press events
