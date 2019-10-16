@@ -27,13 +27,7 @@ def bulletCollisions(bullets, bullet, enemies, all_sprite_list, walls):
             all_sprite_list.remove(bullet)
 
 # enemy collisions
-def enemyCollisions(enemies, man, gameOver, run, walls):
-
-    # enemy-player collisions
-    for enemy in enemies:
-        if pygame.sprite.collide_rect(enemy, man):
-            gameOver = True
-            run = False
+def enemyCollisions(enemies, walls):
 
     # enemy-enemy collisions
     for enemy1 in enemies:

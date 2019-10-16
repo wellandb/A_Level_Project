@@ -129,7 +129,13 @@ while run:
         
         bulletCollisions(bullets, bullet, enemies, all_sprite_list, walls)
 
-    enemyCollisions(enemies, man, gameOver, run, walls)
+    enemyCollisions(enemies, walls)
+
+    # enemy-player collisions
+    for enemy in enemies:
+        if pygame.sprite.collide_rect(enemy, man):
+            gameOver = True
+            run = False
        
                 
 
@@ -145,8 +151,8 @@ while run:
     if keys[pygame.K_UP]:
         moveUp = True
         for wall in walls:
-            if man.rect.x > wall.rect.x and man.rect.x < wall.rect.x + tileSize or man.rect.x < wall.rect.x and man.rect.x + man.rect.width > wall.rect.x:
-                if man.rect.y - man.vel < wall.rect.y + tileSize and man.rect.y > wall.rect.y:
+            if man.rect.x >= wall.rect.x and man.rect.x < wall.rect.x + tileSize or man.rect.x <= wall.rect.x and man.rect.x + man.rect.width > wall.rect.x:
+                if man.rect.y - man.vel < wall.rect.y + tileSize and man.rect.y >= wall.rect.y:
                     moveUp = False
         if moveUp:
             man.rect.y -= man.vel
@@ -157,8 +163,8 @@ while run:
     elif keys[pygame.K_DOWN]:
         moveDown = True
         for wall in walls:
-            if man.rect.x > wall.rect.x and man.rect.x < wall.rect.x + tileSize or man.rect.x < wall.rect.x and man.rect.x + man.rect.width > wall.rect.x:
-                if man.rect.y + man.rect.height + man.vel > wall.rect.y and man.rect.y + man.rect.height < wall.rect.y:
+            if man.rect.x >= wall.rect.x and man.rect.x < wall.rect.x + tileSize or man.rect.x <= wall.rect.x and man.rect.x + man.rect.width > wall.rect.x:
+                if man.rect.y + man.rect.height + man.vel > wall.rect.y and man.rect.y + man.rect.height <= wall.rect.y:
                     moveDown = False
         if moveDown:
             man.rect.y += man.vel
@@ -169,8 +175,8 @@ while run:
     elif keys[pygame.K_LEFT]:
         moveLeft = True
         for wall in walls:
-            if man.rect.y > wall.rect.y and man.rect.y < wall.rect.y + tileSize or man.rect.y < wall.rect.y and man.rect.y + man.rect.height > wall.rect.y:
-                if man.rect.x - man.vel < wall.rect.x + tileSize and man.rect.x > wall.rect.x + tileSize:
+            if man.rect.y >= wall.rect.y and man.rect.y < wall.rect.y + tileSize or man.rect.y <= wall.rect.y and man.rect.y + man.rect.height > wall.rect.y:
+                if man.rect.x - man.vel < wall.rect.x + tileSize and man.rect.x >= wall.rect.x + tileSize:
                     moveLeft = False
         if moveLeft:
             man.rect.x -= man.vel
@@ -181,8 +187,8 @@ while run:
     elif keys[pygame.K_RIGHT]:
         moveRight = True
         for wall in walls:
-            if man.rect.y > wall.rect.y and man.rect.y < wall.rect.y + tileSize or man.rect.y < wall.rect.y and man.rect.y + man.rect.height > wall.rect.y:
-                if man.rect.x + man.vel > wall.rect.x and man.rect.x < wall.rect.x:
+            if man.rect.y >= wall.rect.y and man.rect.y < wall.rect.y + tileSize or man.rect.y <= wall.rect.y and man.rect.y + man.rect.height > wall.rect.y:
+                if man.rect.x + man.rect.width + man.vel > wall.rect.x and man.rect.x + man.rect.width <= wall.rect.x:
                     moveRight = False
         if moveRight:
             man.rect.x += man.vel
