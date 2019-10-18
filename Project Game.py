@@ -39,7 +39,7 @@ Camera = camera(screenWidth, screenHeight)
 
 #enemies
 enemies = pygame.sprite.Group()
-for i in range(10):
+for i in range(20):
     tileSpawn = floor[random.randint(0,len(floor) - 1)]
     enemyX = tileSpawn.rect.x + tileSize/4
     enemyY = tileSpawn.rect.y + tileSize/4
@@ -160,7 +160,7 @@ while run:
         man.left = False
         man.right = False
         man.down = False
-    elif keys[pygame.K_DOWN]:
+    if keys[pygame.K_DOWN]:
         moveDown = True
         for wall in walls:
             if man.rect.x >= wall.rect.x and man.rect.x < wall.rect.x + tileSize or man.rect.x <= wall.rect.x and man.rect.x + man.rect.width > wall.rect.x:
@@ -172,7 +172,7 @@ while run:
         man.left = False
         man.down = True
         man.right = False
-    elif keys[pygame.K_LEFT]:
+    if keys[pygame.K_LEFT]:
         moveLeft = True
         for wall in walls:
             if man.rect.y >= wall.rect.y and man.rect.y < wall.rect.y + tileSize or man.rect.y <= wall.rect.y and man.rect.y + man.rect.height > wall.rect.y:
@@ -184,7 +184,7 @@ while run:
         man.down = False
         man.right = False
         man.up = False
-    elif keys[pygame.K_RIGHT]:
+    if keys[pygame.K_RIGHT]:
         moveRight = True
         for wall in walls:
             if man.rect.y >= wall.rect.y and man.rect.y < wall.rect.y + tileSize or man.rect.y <= wall.rect.y and man.rect.y + man.rect.height > wall.rect.y:

@@ -14,6 +14,8 @@ class enemy(pygame.sprite.Sprite):
         self.health = 3
         # sets no collisions
         self.canMove = True
+        #if they are chasing the player down
+        self.agro = 0
 
     #draw function
     def draw(self,win, coords):
@@ -25,6 +27,9 @@ class enemy(pygame.sprite.Sprite):
         # checks for collisions
         if self.canMove:
             if target.rect.x > self.rect.x - 200 and target.rect.x < self.rect.x + 200 and target.rect.y > self.rect.y - 200 and target.rect.y < self.rect.y + 200:
+                self.agro = 1
+            # if the enemy is agro at the player chase them down    
+            if self.agro == 1:
                 # moves towards target, at the moment it is basic as the map hasn't been implemented so no need for path finding 
                 if self.rect.x < target.rect.x:
                     self.rect.x += self.vel
@@ -40,6 +45,7 @@ class enemy(pygame.sprite.Sprite):
 
     
     def shot(self, enemies, all_sprite_list, enemy_hit_list):
+        self.agro = 1
         self.health -= 1
         if self.health == 0:
             enemies.remove(self)

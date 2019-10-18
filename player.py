@@ -1,5 +1,8 @@
 import pygame
 pygame.init()
+
+from guns import * 
+
 #player class
 class player(pygame.sprite.Sprite):
     #initialisation
@@ -17,6 +20,7 @@ class player(pygame.sprite.Sprite):
         self.down = True
         # allows for instant shooting
         self.reloadTime = 0
+        self.gun = 'pistol'
 
      #draw function
     def draw(self,win, coords):
@@ -33,11 +37,10 @@ class player(pygame.sprite.Sprite):
             XorY = "X"
         else:
             XorY = "Y"
-        # max 5 bullets on screen at a time, makes bullet at centre of player and moves in direction facing, also adds delay between bullets
-        if len(bullets) < 5 and self.reloadTime == 0:
-           bullet = projectile(round(self.rect.x + self.rect.width//4),  round(self.rect.y + self.rect.height//4), 6, 10, (0,0,255), facing, XorY, 10)
-           bullets.add(bullet)
-           all_sprite_list.add(bullet)
-           self.reloadTime = 1
-        else:
-            self.reloadTime = 0
+
+        if self.gun == 'pistol':
+            if self.reloadTime == 0:    
+                pistol(bullets, projectile, self, facing, XorY, all_sprite_list)
+                self.reloadTime = 2
+            else:
+                self.reloadTime -= 1
