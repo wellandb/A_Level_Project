@@ -3,7 +3,6 @@ pygame.init()
 
 from guns import * 
 
-
 #player class
 class player(pygame.sprite.Sprite):
     #initialisation
@@ -22,8 +21,9 @@ class player(pygame.sprite.Sprite):
         # allows for instant shooting
         self.reloadTime = 0
         self.gun = 'pistol'
-        self.idle = [pygame.image.load('art\knight_m_idle_anim_f0.png'),pygame.image.load('art\knight_m_idle_anim_f1.png'),pygame.image.load('art\knight_m_idle_anim_f2.png'),pygame.image.load('art\knight_m_idle_anim_f3.png')]
-        self.walkRight = [pygame.image.load('art\knight_m_run_anim_f0.png'),pygame.image.load('art\knight_m_run_anim_f1.png'),pygame.image.load('art\knight_m_run_anim_f2.png'),pygame.image.load('art\knight_m_run_anim_f3.png')]
+        self.idle = pygame.image.load('topdown_shooter/characters/idle.png')
+        self.walkRight = [pygame.image.load('topdown_shooter/characters/right0.png'), pygame.image.load('topdown_shooter/characters/right1.png'), pygame.image.load('topdown_shooter/characters/right2.png'), pygame.image.load('topdown_shooter/characters/right3.png')]
+        self.walkLeft = [pygame.image.load('topdown_shooter/characters/left0.png'), pygame.image.load('topdown_shooter/characters/left1.png'), pygame.image.load('topdown_shooter/characters/left2.png'), pygame.image.load('topdown_shooter/characters/left3.png')]
         self.walkCount = 0
         self.moving = False
 
@@ -32,9 +32,12 @@ class player(pygame.sprite.Sprite):
         if self.walkCount >= 12:
             self.walkCount = 0
         if self.moving == False:
-            self.image = self.idle[self.walkCount//3]
+            self.image = self.idle
         else:
-            self.image = self.walkRight[self.walkCount//3]
+            if self.right:
+                self.image = self.walkRight[self.walkCount//3]
+            if self.left:
+                self.image = self.walkLeft[self.walkCount//3]
         self.walkCount += 1
         win.blit(self.image,coords)
 
