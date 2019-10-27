@@ -160,6 +160,9 @@ while run:
         man.left = False
         man.right = False
         man.down = False
+        man.moving = True
+    else:
+        man.moving = False
     if keys[pygame.K_DOWN]:
         moveDown = True
         for wall in walls:
@@ -172,6 +175,9 @@ while run:
         man.left = False
         man.down = True
         man.right = False
+        man.moving = True
+    else:
+        man.moving = False
     if keys[pygame.K_LEFT]:
         moveLeft = True
         for wall in walls:
@@ -184,6 +190,9 @@ while run:
         man.down = False
         man.right = False
         man.up = False
+        man.moving = True
+    else:
+        man.moving = False
     if keys[pygame.K_RIGHT]:
         moveRight = True
         for wall in walls:
@@ -196,6 +205,9 @@ while run:
         man.up = False
         man.down = False
         man.right = True
+        man.moving = True
+    else:
+        man.moving = False
 
     # display loop updates
     redrawGameWindow()

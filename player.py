@@ -3,6 +3,7 @@ pygame.init()
 
 from guns import * 
 
+
 #player class
 class player(pygame.sprite.Sprite):
     #initialisation
@@ -21,11 +22,21 @@ class player(pygame.sprite.Sprite):
         # allows for instant shooting
         self.reloadTime = 0
         self.gun = 'pistol'
+        self.idle = [pygame.image.load('art\knight_m_idle_anim_f0.png'),pygame.image.load('art\knight_m_idle_anim_f1.png'),pygame.image.load('art\knight_m_idle_anim_f2.png'),pygame.image.load('art\knight_m_idle_anim_f3.png')]
+        self.walkRight = [pygame.image.load('art\knight_m_run_anim_f0.png'),pygame.image.load('art\knight_m_run_anim_f1.png'),pygame.image.load('art\knight_m_run_anim_f2.png'),pygame.image.load('art\knight_m_run_anim_f3.png')]
+        self.walkCount = 0
+        self.moving = False
 
      #draw function
     def draw(self,win, coords):
-        # at the moment the player is just a red rectangle
-        pygame.draw.rect(win, (255, 0, 0), coords)
+        if self.walkCount >= 12:
+            self.walkCount = 0
+        if self.moving == False:
+            self.image = self.idle[self.walkCount//3]
+        else:
+            self.image = self.walkRight[self.walkCount//3]
+        self.walkCount += 1
+        win.blit(self.image,coords)
 
     def shoot(self, bullets, projectile, all_sprite_list):
         # determines which way facing
