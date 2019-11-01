@@ -15,21 +15,35 @@ class enemy(pygame.sprite.Sprite):
         # sets no collisions
         self.canMove = True
         #if they are chasing the player down
-        self.agro = 0
+        self.agro = False
+        
+        self.walkCount = 0
+        self.walk = [pygame.image.load('art/pumpkin0.png'),pygame.image.load('art/pumpkin1.png'),pygame.image.load('art/pumpkin2.png'),pygame.image.load('art/pumpkin3.png'),pygame.image.load('art/pumpkin4.png'),pygame.image.load('art/pumpkin5.png'),pygame.image.load('art/pumpkin6.png'),pygame.image.load('art/pumpkin7.png')]
 
     #draw function
     def draw(self,win, coords):
-        # at the moment just a green square
-        pygame.draw.rect(win, (0, 255, 0), coords)
+        if self.walkCount >= 12:
+            self.walkCount = 0
+
+        if self.agro:
+            self.image = self.walk[self.walkCount//3]
+            self.walkCount += 1
+        else:
+            self.image = self.walk[4]
+
+        pygame.draw.rect(win, (255,0,0), self.rect)
+        win.blit(self.image,coords)
+
+
 
     #movement
     def move(self, target):
         # checks for collisions
         if self.canMove:
             if target.rect.x > self.rect.x - 200 and target.rect.x < self.rect.x + 200 and target.rect.y > self.rect.y - 200 and target.rect.y < self.rect.y + 200:
-                self.agro = 1
+                self.agro = True
             # if the enemy is agro at the player chase them down    
-            if self.agro == 1:
+            if self.agro:
                 # moves towards target, at the moment it is basic as the map hasn't been implemented so no need for path finding 
                 if self.rect.x < target.rect.x:
                     self.rect.x += self.vel
@@ -45,7 +59,7 @@ class enemy(pygame.sprite.Sprite):
 
     
     def shot(self, enemies, all_sprite_list, enemy_hit_list):
-        self.agro = 1
+        self.agro = True
         self.health -= 1
         if self.health == 0:
             enemies.remove(self)

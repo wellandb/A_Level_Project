@@ -21,9 +21,11 @@ class player(pygame.sprite.Sprite):
         # allows for instant shooting
         self.reloadTime = 0
         self.gun = 'pistol'
-        self.idle = pygame.image.load('topdown_shooter/characters/idle.png')
-        self.walkRight = [pygame.image.load('topdown_shooter/characters/right0.png'), pygame.image.load('topdown_shooter/characters/right1.png'), pygame.image.load('topdown_shooter/characters/right2.png'), pygame.image.load('topdown_shooter/characters/right3.png')]
-        self.walkLeft = [pygame.image.load('topdown_shooter/characters/left0.png'), pygame.image.load('topdown_shooter/characters/left1.png'), pygame.image.load('topdown_shooter/characters/left2.png'), pygame.image.load('topdown_shooter/characters/left3.png')]
+        self.idle = pygame.image.load('art/topdown_shooter/characters/idle.png')
+        self.walkRight = [pygame.image.load('art/topdown_shooter/characters/right0.png'), pygame.image.load('art/topdown_shooter/characters/right1.png'), pygame.image.load('art/topdown_shooter/characters/right2.png'), pygame.image.load('art/topdown_shooter/characters/right3.png')]
+        self.walkLeft = [pygame.image.load('art/topdown_shooter/characters/left0.png'), pygame.image.load('art/topdown_shooter/characters/left1.png'), pygame.image.load('art/topdown_shooter/characters/left2.png'), pygame.image.load('art/topdown_shooter/characters/left3.png')]
+        self.walkDown = [pygame.image.load('art/topdown_shooter/characters/down0.png'),pygame.image.load('art/topdown_shooter/characters/down1.png'),pygame.image.load('art/topdown_shooter/characters/down2.png'),pygame.image.load('art/topdown_shooter/characters/down3.png')]
+        self.walkUp = [pygame.image.load('art/topdown_shooter/characters/up0.png'),pygame.image.load('art/topdown_shooter/characters/up1.png'),pygame.image.load('art/topdown_shooter/characters/up2.png'),pygame.image.load('art/topdown_shooter/characters/up3.png')]
         self.walkCount = 0
         self.moving = False
 
@@ -38,6 +40,10 @@ class player(pygame.sprite.Sprite):
                 self.image = self.walkRight[self.walkCount//3]
             if self.left:
                 self.image = self.walkLeft[self.walkCount//3]
+            if self.down:
+                self.image = self.walkDown[self.walkCount//3]
+            if self.up:
+                self.image = self.walkUp[self.walkCount//3]
         self.walkCount += 1
         win.blit(self.image,coords)
 
