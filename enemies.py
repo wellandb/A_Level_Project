@@ -29,9 +29,8 @@ class enemy(pygame.sprite.Sprite):
             self.image = self.walk[self.walkCount//3]
             self.walkCount += 1
         else:
-            self.image = self.walk[4]
+            self.image = self.walk[2]
 
-        pygame.draw.rect(win, (255,0,0), self.rect)
         win.blit(self.image,coords)
 
 

@@ -47,7 +47,7 @@ while restart:
         tileSpawn = floor[random.randint(0,len(floor) - 1)]
         enemyX = tileSpawn.rect.x + tileSize/4
         enemyY = tileSpawn.rect.y + tileSize/4
-        i = enemy(enemyX,enemyY, 20, 20)
+        i = enemy(enemyX,enemyY, 16, 23)
         enemies.add(i)
         all_sprite_list.add(i)
 
@@ -67,7 +67,7 @@ while restart:
         if canSpawn:
             playerX = playerTileSpawn.rect.x + tileSize/4
             playerY = playerTileSpawn.rect.y + tileSize/4
-            man = player(playerX, playerY , 20, 20)
+            man = player(playerX, playerY , 16, 20)
             all_sprite_list.add(man)
             spawn = True
 
@@ -223,6 +223,8 @@ while restart:
             if event.type == pygame.QUIT:
                 run = True
 
+
+            keys = pygame.key.get_pressed() 
             if keys[pygame.K_SPACE]:
                 restart = True
                 run = True

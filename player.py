@@ -34,7 +34,14 @@ class player(pygame.sprite.Sprite):
         if self.walkCount >= 12:
             self.walkCount = 0
         if self.moving == False:
-            self.image = self.idle
+            if self.right:
+                self.image = self.walkRight[2]
+            if self.left:
+                self.image = self.walkLeft[2]
+            if self.down:
+                self.image = self.idle
+            if self.up:
+                self.image = self.walkUp[2]
         else:
             if self.right:
                 self.image = self.walkRight[self.walkCount//3]

@@ -47,18 +47,20 @@ class walker():
 class floorTile(object):
     def __init__(self,x,y):
         self.rect = pygame.Rect(x,y,tileSize,tileSize)
+        self.imageList = [pygame.image.load('art/floor_1.png'),pygame.image.load('art/floor_2.png'),pygame.image.load('art/floor_3.png'),pygame.image.load('art/floor_4.png'),pygame.image.load('art/floor_5.png'),pygame.image.load('art/floor_6.png'),pygame.image.load('art/floor_7.png'),pygame.image.load('art/floor_8.png')]
+        self.image = self.imageList[random.randint(0,7)]
 
     def draw(self, win , coords):
-        pygame.draw.rect(win,(125,125,255), coords)
+        win.blit(pygame.transform.scale(self.image, (tileSize,tileSize)), coords)
     
 #wall tile
 class wallTile(pygame.sprite.Sprite):
     def __init__(self,x,y):
         self.rect = pygame.Rect(x,y,tileSize,tileSize)
+        self.image = pygame.image.load('art/wall_mid.png')
 
     def draw(self, win, coords):
-        pygame.draw.rect(win, (255,162,162), coords)
-
+        win.blit(pygame.transform.scale(self.image, (tileSize,tileSize)), coords)
 
 #lists to store floor
 floor = []
