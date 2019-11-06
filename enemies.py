@@ -16,7 +16,10 @@ class enemy(pygame.sprite.Sprite):
         self.canMove = True
         #if they are chasing the player down
         self.agro = False
-        
+        #checks which way to face
+        self.right = True
+        self.left = False
+
         self.walkCount = 0
         self.walk = [pygame.image.load('art/pumpkin0.png'),pygame.image.load('art/pumpkin1.png'),pygame.image.load('art/pumpkin2.png'),pygame.image.load('art/pumpkin3.png'),pygame.image.load('art/pumpkin4.png'),pygame.image.load('art/pumpkin5.png'),pygame.image.load('art/pumpkin6.png'),pygame.image.load('art/pumpkin7.png')]
 
@@ -26,7 +29,10 @@ class enemy(pygame.sprite.Sprite):
             self.walkCount = 0
 
         if self.agro:
-            self.image = self.walk[self.walkCount//3]
+            if self.right:
+                self.image = self.walk[self.walkCount//3]
+            elif self.left:
+                self.image = pygame.transform.flip(self.walk[self.walkCount//3], 1, 0)
             self.walkCount += 1
         else:
             self.image = self.walk[2]
@@ -46,8 +52,12 @@ class enemy(pygame.sprite.Sprite):
                 # moves towards target, at the moment it is basic as the map hasn't been implemented so no need for path finding 
                 if self.rect.x < target.rect.x:
                     self.rect.x += self.vel
+                    self.right = True
+                    self.left - False
                 elif self.rect.x > target.rect.x:
                     self.rect.x -= self.vel
+                    self.right = False
+                    self.left = True
 
                 if self.rect.y < target.rect.y:
                     self.rect.y += self.vel
