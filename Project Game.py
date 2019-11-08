@@ -89,8 +89,10 @@ while restart:
 
         if gameOver:
             win.blit(myfont.render('Game Over', True, white), (screenWidth/2 - 125, 50))
+            win.blit(myfont.render('Space to restart',True, white), (screenWidth/2-200, 150))
         if gameWin:
             win.blit(myfont.render('Game Win', True, white), (screenWidth/2 - 125, 50))
+            win.blit(myfont.render('Space to restart',True, white), (screenWidth/2-200, 150))
 
         #display update window
         pygame.display.update()
