@@ -11,6 +11,7 @@ while restart:
     from enemies import *
     from projectiles import *
     from collisions import *
+    print('all imported')
 
     # camera class
     class camera():
@@ -41,36 +42,54 @@ while restart:
 
     Camera = camera(screenWidth, screenHeight)
 
-    #enemies
+    score = 1000
+
+ #enemies
     enemies = pygame.sprite.Group()
-    for i in range(20):
-        tileSpawn = floor[random.randint(0,len(floor) - 1)]
-        enemyX = tileSpawn.rect.x + tileSize/4
-        enemyY = tileSpawn.rect.y + tileSize/4
-        i = enemy(enemyX,enemyY, 16, 23)
-        enemies.add(i)
-        all_sprite_list.add(i)
 
-    # player
     # choosing spawn point that is far away enough from all enemies that you don't die staright away
-
+    print('start spawning')
     spawn = False
+    enemiesSpawn = True
     while not spawn:
+        # enemy spawning
+        if enemiesSpawn:
+            for i in range(20):
+                tileSpawn = floor[random.randint(0,len(floor) - 1)]
+                enemyX = tileSpawn.rect.x + tileSize/4
+                enemyY = tileSpawn.rect.y + tileSize/4
+                newEnemy = enemy(enemyX,enemyY, 16, 23)
+                enemies.add(newEnemy)
+                enemiesSpawn = False
+                countDownToEnemies = 10
+
+        # player spawning
         canSpawn = True
         playerTileSpawn = floor[random.randint(0,len(floor) - 1)]
-        for enemy in enemies:
+        for Enemy in enemies:
             #check if player spawn is too close to an enemy in the x axis
-            if playerTileSpawn.rect.x - (5 * tileSize) < enemy.rect.x and playerTileSpawn.rect.x + (5 * tileSize) > enemy.rect.x:
+            if playerTileSpawn.rect.x - (5 * tileSize) < Enemy.rect.x and playerTileSpawn.rect.x + (5 * tileSize) > Enemy.rect.x:
                 #check if player spawn is too close to an enemy in the y axis
-                if playerTileSpawn.rect.y - (5 * tileSize) < enemy.rect.y and playerTileSpawn.rect.y + (5 * tileSize) > enemy.rect.y:
+                if playerTileSpawn.rect.y - (5 * tileSize) < Enemy.rect.y and playerTileSpawn.rect.y + (5 * tileSize) > Enemy.rect.y:
                     canSpawn = False
+
         if canSpawn:
+            #enemies spawn
+            for i in enemies:
+                all_sprite_list.add(i)
+            #player spawn
             playerX = playerTileSpawn.rect.x + tileSize/4
             playerY = playerTileSpawn.rect.y + tileSize/4
             man = player(playerX, playerY , 16, 20)
             all_sprite_list.add(man)
             spawn = True
+        else:
+            countDownToEnemies -= 1
+            if countDownToEnemies == 0:
+                enemiesSpawn = True
+                enemies = pygame.sprite.Group()
 
+    print('finished spawning')
     #projectiles
     bullets = pygame.sprite.Group()
 
@@ -84,8 +103,8 @@ while restart:
             wall.draw(win, Camera.apply(wall))
         for sprite in all_sprite_list:    
             sprite.draw(win, Camera.apply(sprite))
-        for enemy in enemies:
-            enemy.move(man)
+        for Enemy in enemies:
+            Enemy.move(man)
 
         if gameOver:
             win.blit(myfont.render('Game Over', True, white), (screenWidth/2 - 125, 50))
@@ -94,12 +113,18 @@ while restart:
             win.blit(myfont.render('Game Win', True, white), (screenWidth/2 - 125, 50))
             win.blit(myfont.render('Space to restart',True, white), (screenWidth/2-200, 150))
 
+        if score > 0:
+            win.blit(smallfont.render('score:' + str(score), True, white), (screenWidth - 100, 20))
+        else:
+            win.blit(smallfont.render('score:' + str(score), True, red), (screenWidth - 100, 20))
+
         #display update window
         pygame.display.update()
     # fill window with black background
         win.fill(black)
 
     #main loop
+    print('game loop started')
     run = True
     while run:
         # set clock
@@ -138,8 +163,8 @@ while restart:
         enemyCollisions(enemies, walls)
 
         # enemy-player collisions
-        for enemy in enemies:
-            if pygame.sprite.collide_rect(enemy, man):
+        for Enemy in enemies:
+            if pygame.sprite.collide_rect(Enemy, man):
                 gameOver = True
                 run = False
         
@@ -210,6 +235,10 @@ while restart:
             man.down = False
             man.right = True
             man.moving = True
+
+
+        if score > 0:
+            score -= 1
 
         # display loop updates
         redrawGameWindow()

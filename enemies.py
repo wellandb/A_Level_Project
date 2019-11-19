@@ -3,7 +3,7 @@ pygame.init()
 # enemy class
 class enemy(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,width,height,):
+    def __init__(self,x,y,width,height):
         # gives instatiation as pygame sprite
         super().__init__()
         # creates hit box

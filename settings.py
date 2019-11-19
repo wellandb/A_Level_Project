@@ -20,6 +20,7 @@ win.fill(black)
 # text set up
 pygame.font.init()
 myfont = pygame.font.SysFont('Arial', 50)
+smallfont = pygame.font.SysFont('Arial', 20)
 
 # setting a caption for game window
 pygame.display.set_caption('Game Project')
