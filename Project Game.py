@@ -6,6 +6,7 @@ while restart:
     restart = False
 
     from settings import *
+    from menu import *
     from map_maker import *
     from player import *
     from enemies import *
@@ -236,9 +237,10 @@ while restart:
             man.right = True
             man.moving = True
 
-
+        
         if score > 0:
             score -= 1
+
 
         # display loop updates
         redrawGameWindow()
