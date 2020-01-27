@@ -8,7 +8,7 @@ from settings import *
 tileSize = 40
 rows, cols = (175, 125)
 grid = [['' for i in range(rows)] for j in range(cols)]
-
+loadCycle = 0
 
 #walker to build floor
 class walker():
@@ -96,6 +96,12 @@ while run:
     win.blit(smallfont.render(str(percentDone) + '%', True, white), (screenWidth/2 - 10, 300))
     if percentDone > 100:
         win.blit(smallfont.render('cheeky :)', True, white), (screenWidth/2 - 10, 350))
+
+    loadyBoi = [pygame.image.load('art/big_demon_idle_anim_f0.png'),pygame.image.load('art/big_demon_idle_anim_f1.png'),pygame.image.load('art/big_demon_idle_anim_f2.png'),pygame.image.load('art/big_demon_idle_anim_f3.png')]
+    win.blit(loadyBoi[loadCycle//5], (screenWidth/2 - 10, 400))
+    loadCycle += 1
+    if loadCycle == 20:
+        loadCycle = 0
 
     if len(floor) > 250:
         for walker in walkers:
