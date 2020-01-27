@@ -3,6 +3,8 @@ import pygame, random, sys
 # initialise pygame
 pygame.init()
 
+from settings import *
+
 tileSize = 40
 rows, cols = (175, 125)
 grid = [['' for i in range(rows)] for j in range(cols)]
@@ -88,7 +90,12 @@ while run:
         walker.move()
 
     percentDone = int((len(floor)/250) * 100)
-    print(percentDone, '%')
+
+    win.fill(black)
+    win.blit(myfont.render('Loading:', True, white), (screenWidth/2 - 100, 200))
+    win.blit(smallfont.render(str(percentDone) + '%', True, white), (screenWidth/2 - 10, 300))
+    if percentDone > 100:
+        win.blit(smallfont.render('cheeky :)', True, white), (screenWidth/2 - 10, 350))
 
     if len(floor) > 250:
         for walker in walkers:
