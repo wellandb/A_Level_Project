@@ -25,7 +25,7 @@ class enemy(pygame.sprite.Sprite):
 
     #draw function
     def draw(self,win, coords):
-        if self.walkCount >= 12:
+        if self.walkCount >= len(self.walk) * 3:
             self.walkCount = 0
 
         if self.agro:
