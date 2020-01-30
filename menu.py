@@ -16,7 +16,7 @@ while menu:
 
     win.fill(black)
     win.blit(pygame.image.load('art/robot_background.jpg'), (150, 100))
-    win.blit(myfont.render('To Play press Space', True, white), (screenWidth/2 - 220, 200))
+    win.blit(myfont.render('To Play press Space', True, white), (screenWidth/2 - 220, 100))
 
     keys = pygame.key.get_pressed() 
     if keys[pygame.K_SPACE]:
