@@ -69,8 +69,11 @@ class enemy(pygame.sprite.Sprite):
     
     def shot(self, enemies, all_sprite_list, enemy_hit_list):
         self.agro = True
+        print('enemy health before:', self.health)
         self.health -= 1
+        print('enemy health after:', self.health)
         if self.health == 0:
+            print('enemy killed')
             enemies.remove(self)
             all_sprite_list.remove(self)
         enemy_hit_list.remove(self)

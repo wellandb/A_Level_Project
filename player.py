@@ -20,7 +20,7 @@ class player(pygame.sprite.Sprite):
         self.down = True
         # allows for instant shooting
         self.reloadTime = 0
-        self.gun = 'pistol'
+        self.gun = 'shotgun'
         self.idle = pygame.image.load('art/topdown_shooter/characters/idle.png')
         self.walkRight = [pygame.image.load('art/topdown_shooter/characters/right0.png'), pygame.image.load('art/topdown_shooter/characters/right1.png'), pygame.image.load('art/topdown_shooter/characters/right2.png'), pygame.image.load('art/topdown_shooter/characters/right3.png')]
         self.walkLeft = [pygame.image.load('art/topdown_shooter/characters/left0.png'), pygame.image.load('art/topdown_shooter/characters/left1.png'), pygame.image.load('art/topdown_shooter/characters/left2.png'), pygame.image.load('art/topdown_shooter/characters/left3.png')]
@@ -69,5 +69,12 @@ class player(pygame.sprite.Sprite):
             if self.reloadTime == 0:    
                 pistol(bullets, projectile, self, facing, XorY, all_sprite_list)
                 self.reloadTime = 2
+            else:
+                self.reloadTime -= 1
+        
+        if self.gun == 'shotgun':
+            if self.reloadTime == 0:
+                shotgun(bullets, projectile, self, facing, XorY, all_sprite_list)
+                self.reloadTime = 6
             else:
                 self.reloadTime -= 1

@@ -144,23 +144,22 @@ while restart:
         
         # bullets
         for bullet in bullets:
-            if bullet.movingX:
-                if bullet.rect.x < screenWidth/2 + man.rect.x and bullet.rect.x > man.rect.x - screenWidth/2:
-                    bullet.rect.x += bullet.vel
-                else:
-                    bullets.remove(bullet)
-                    all_sprite_list.remove(bullet)
+            # chceks if bullet is within screen th en moves it
+            if bullet.rect.x < screenWidth/2 + man.rect.x and bullet.rect.x > man.rect.x - screenWidth/2:
+                bullet.rect.x += bullet.velX
+            else:
+                bullets.remove(bullet)
+                all_sprite_list.remove(bullet)
             
-            # changes bullet dimensions
-            if bullet.movingY:
-                if bullet.rect.y < man.rect.y + screenHeight/2 and bullet.rect.y > man.rect.y - screenHeight/2:
-                    bullet.rect.y += bullet.vel
-                else:
-                    bullets.remove(bullet)
-                    all_sprite_list.remove(bullet)
+            if bullet.rect.y < man.rect.y + screenHeight/2 and bullet.rect.y > man.rect.y - screenHeight/2:
+                bullet.rect.y += bullet.velY
+            else:
+                bullets.remove(bullet)
+                all_sprite_list.remove(bullet)
             
             bulletCollisions(bullets, bullet, enemies, all_sprite_list, walls)
 
+        # enemy-wall collisions
         enemyCollisions(enemies, walls)
 
         # enemy-player collisions
@@ -169,7 +168,6 @@ while restart:
                 gameOver = True
                 run = False
         
-                    
 
         # key press events
         keys = pygame.key.get_pressed()
@@ -237,6 +235,11 @@ while restart:
             man.right = True
             man.moving = True
 
+        if keys[pygame.K_1]:
+            man.gun = 'pistol'
+
+        if keys[pygame.K_2]:
+            man.gun = 'shotgun'
         
         if score > 0:
             score -= 1

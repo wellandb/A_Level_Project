@@ -6,18 +6,21 @@ def bulletCollisions(bullets, bullet, enemies, all_sprite_list, walls):
     # bullet-enemy collisions
     enemy_hit_list = pygame.sprite.spritecollide(bullet, enemies, False)
     for enemy in enemy_hit_list:
+        # removes bullet from game
         bullets.remove(bullet)
         all_sprite_list.remove(bullet)
-        if bullet.movingX:
-            if bullet.vel > 0:
-                enemy.rect.x += 3
-            else:
-                enemy.rect.x -= 3
-        else:         
-            if bullet.vel > 0:
-                enemy.rect.y += 3
-            else:
-                enemy.rect.y -= 3                
+        # gets relative position of enemy in order to push them back the appropriate direction
+        if bullet.velX > 0:
+            enemy.rect.x += 3
+        else:
+            enemy.rect.x -= 3
+        
+                 
+        if bullet.velY > 0:
+            enemy.rect.y += 3
+        else:
+            enemy.rect.y -= 3                
+        # enemy is shot function to lose health
         enemy.shot(enemies, all_sprite_list, enemy_hit_list)
 
     #bullet-wall collisions

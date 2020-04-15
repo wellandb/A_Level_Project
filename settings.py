@@ -11,8 +11,8 @@ black = (0,0,0)
 white = (255,255,255)
 
 #window
-screenWidth = 700
-screenHeight = 500
+screenWidth = 1200
+screenHeight = 600
 screen = (screenWidth,screenHeight)
 win = pygame.display.set_mode(screen)
 win.fill(black)
