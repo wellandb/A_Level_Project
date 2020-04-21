@@ -68,13 +68,13 @@ class player(pygame.sprite.Sprite):
         if self.gun == 'pistol':
             if self.reloadTime == 0:    
                 pistol(bullets, projectile, self, facing, XorY, all_sprite_list)
-                self.reloadTime = 2
+                self.reloadTime = 6
             else:
                 self.reloadTime -= 1
         
         if self.gun == 'shotgun':
             if self.reloadTime == 0:
                 shotgun(bullets, projectile, self, facing, XorY, all_sprite_list)
-                self.reloadTime = 6
+                self.reloadTime = 10
             else:
                 self.reloadTime -= 1

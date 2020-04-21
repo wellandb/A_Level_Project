@@ -55,8 +55,21 @@ while restart:
     while not spawn:
         # enemy spawning
         if enemiesSpawn:
+            #keeps track of previous spawn points for enemies
+            floorNumbers = []
             for i in range(20):
-                tileSpawn = floor[random.randint(0,len(floor) - 1)]
+                #check the spawn point
+                check = False
+                while not check:
+                    floorNumber = random.randint(0,len(floor) - 1)
+                    if floorNumbers.count(floorNumber) == 0:
+                        check = True
+
+                floorNumbers.append(floorNumber)
+                tileSpawn = floor[floorNumber]
+
+
+
                 enemyX = tileSpawn.rect.x + tileSize/4
                 enemyY = tileSpawn.rect.y + tileSize/4
                 newEnemy = enemy(enemyX,enemyY, 16, 23)

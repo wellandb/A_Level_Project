@@ -68,12 +68,30 @@ class enemy(pygame.sprite.Sprite):
 
     
     def shot(self, enemies, all_sprite_list, enemy_hit_list):
+        
         self.agro = True
-        print('enemy health before:', self.health)
         self.health -= 1
-        print('enemy health after:', self.health)
+
         if self.health == 0:
-            print('enemy killed')
             enemies.remove(self)
             all_sprite_list.remove(self)
         enemy_hit_list.remove(self)
+
+
+class demon(enemy):
+
+    def __init__(self,x,y,width,height):
+        super().__init__()
+        
+        self.walk =[pygame.image.load("demon0.png"),pygame.image.load("demon1.png"),pygame.image.load("demon2.png"),pygame.image.load("demon3.png"),pygame.image.load("demon4.png"),pygame.image.load("demon5.png"),pygame.image.load("demon6.png"),pygame.image.load("demon7.png")]    
+
+    def draw(self,win, coords):
+        super().draw()
+    
+    
+    def move(self, target):
+        super().move()
+    
+    
+    def shot(self, enemies, all_sprite_list, enemy_hit_list):
+        super().shot()

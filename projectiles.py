@@ -25,7 +25,11 @@ class projectile(pygame.sprite.Sprite):
             else:
                 self.angle = 180
         else:
-            self.angle = int(math.degrees(math.atan2(self.velY,self.velX)))
+            if self.velY > self.velX:
+                self.angle = int(math.degrees(math.atan2(self.velY,self.velX)))
+            else:
+                self.angle = int(math.degrees(math.atan2(self.velX,self.velY)))
+            
         
         pygame.draw.rect(win, (0,0,255), self.rect)
         win.blit(pygame.transform.rotate(self.image, self.angle), coords)
