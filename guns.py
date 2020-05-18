@@ -25,14 +25,14 @@ def shotgun(bullets, projectile, man, facing, XorY, all_sprite_list):
         for i in range(5):
             if XorY == 'X':
                 if man.right:
-                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 6, 10, facing, XorY, 10, random.randint(-5, 5))
+                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 6, 10, facing, XorY, 10, random.randint(-3, 3))
                 else:
-                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 6, 10, facing, XorY, -10, random.randint(-5, 5))
+                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 6, 10, facing, XorY, -10, random.randint(-3, 3))
             else:
                 if man.down:
-                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 10, 6, facing, XorY, random.randint(-5, 5), 10)
+                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 10, 6, facing, XorY, random.randint(-3, 3), 10)
                 else:
-                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 10, 6, facing, XorY, random.randint(-5, 5), -10)
+                    bullet = projectile(round(man.rect.x + man.rect.width//4),  round(man.rect.y + man.rect.height//4), 10, 6, facing, XorY, random.randint(-3, 3), -10)
    
             bullets.add(bullet)
             all_sprite_list.add(bullet)

@@ -72,10 +72,36 @@ while restart:
 
                 enemyX = tileSpawn.rect.x + tileSize/4
                 enemyY = tileSpawn.rect.y + tileSize/4
-                newEnemy = enemy(enemyX,enemyY, 16, 23)
+                
+                newEnemy = demon(enemyX, enemyY, 14, 20)
                 enemies.add(newEnemy)
-                enemiesSpawn = False
-                countDownToEnemies = 10
+
+            #big bois
+            for i in range(5):
+                #check the spawn point
+                check = False
+                while not check:
+                    floorNumber = random.randint(0,len(floor) - 1)
+                    if floorNumbers.count(floorNumber) == 0:
+                        check = True
+
+                floorNumbers.append(floorNumber)
+                tileSpawn = floor[floorNumber]
+
+
+
+                enemyX = tileSpawn.rect.x
+                enemyY = tileSpawn.rect.y
+                
+                newEnemy = enemy(enemyX, enemyY, 26, 34)
+                enemies.add(newEnemy)
+
+
+            # set up for player spawning   
+            enemiesSpawn = False
+            countDownToEnemies = 10
+            
+
 
         # player spawning
         canSpawn = True

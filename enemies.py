@@ -11,7 +11,7 @@ class enemy(pygame.sprite.Sprite):
         # creates speed
         self.vel = 2
         # creates health
-        self.health = 3
+        self.health = 5
         # sets no collisions
         self.canMove = True
         #if they are chasing the player down
@@ -21,7 +21,9 @@ class enemy(pygame.sprite.Sprite):
         self.left = False
 
         self.walkCount = 0
-        self.walk = [pygame.image.load('art/pumpkin0.png'),pygame.image.load('art/pumpkin1.png'),pygame.image.load('art/pumpkin2.png'),pygame.image.load('art/pumpkin3.png'),pygame.image.load('art/pumpkin4.png'),pygame.image.load('art/pumpkin5.png'),pygame.image.load('art/pumpkin6.png'),pygame.image.load('art/pumpkin7.png')]
+        self.slowIdle = 0
+        self.idle = [pygame.image.load("art/big_demon_idle_anim_f0.png"),pygame.image.load("art/big_demon_idle_anim_f1.png"),pygame.image.load("art/big_demon_idle_anim_f2.png"),pygame.image.load("art/big_demon_idle_anim_f3.png")]
+        self.walk = [pygame.image.load('art/big_demon_run_anim_f0.png'),pygame.image.load('art/big_demon_run_anim_f1.png'),pygame.image.load('art/big_demon_run_anim_f2.png'),pygame.image.load('art/big_demon_run_anim_f3.png')]
 
     #draw function
     def draw(self,win, coords):
@@ -35,7 +37,13 @@ class enemy(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.walk[self.walkCount//3], 1, 0)
             self.walkCount += 1
         else:
-            self.image = self.walk[2]
+            self.image = self.idle[self.walkCount//3]
+            
+            if self.slowIdle == 0:
+                self.slowIdle += 1
+            else:
+                self.walkCount += 1
+                self.slowIdle = 0
 
         win.blit(self.image,coords)
 
@@ -50,11 +58,11 @@ class enemy(pygame.sprite.Sprite):
             # if the enemy is agro at the player chase them down    
             if self.agro:
                 # moves towards target, at the moment it is basic as the map hasn't been implemented so no need for path finding 
-                if self.rect.x < target.rect.x:
+                if self.rect.x + self.rect.width < target.rect.x:
                     self.rect.x += self.vel
                     self.right = True
-                    self.left - False
-                elif self.rect.x > target.rect.x:
+                    self.left = False
+                elif self.rect.x > target.rect.x + target.rect.width:
                     self.rect.x -= self.vel
                     self.right = False
                     self.left = True
@@ -81,17 +89,40 @@ class enemy(pygame.sprite.Sprite):
 class demon(enemy):
 
     def __init__(self,x,y,width,height):
-        super().__init__()
-        
-        self.walk =[pygame.image.load("demon0.png"),pygame.image.load("demon1.png"),pygame.image.load("demon2.png"),pygame.image.load("demon3.png"),pygame.image.load("demon4.png"),pygame.image.load("demon5.png"),pygame.image.load("demon6.png"),pygame.image.load("demon7.png")]    
+        super().__init__(x,y,width,height)
+        self.health = 2
+        self.vel = 3
+        self.slowIdle = 0
+        self.idle = [pygame.image.load("art/chort_idle_anim_f0.png"),pygame.image.load("art/chort_idle_anim_f1.png"),pygame.image.load("art/chort_idle_anim_f2.png"),pygame.image.load("art/chort_idle_anim_f3.png")]
+        self.walk =[pygame.image.load("art/demon4.png"),pygame.image.load("art/demon5.png"),pygame.image.load("art/demon6.png"),pygame.image.load("art/demon7.png")]    
 
     def draw(self,win, coords):
-        super().draw()
+        if self.walkCount >= len(self.walk) * 3:
+            self.walkCount = 0
+
+        if self.agro:
+            if self.right:
+                self.image = self.walk[self.walkCount//3]
+            elif self.left:
+                self.image = pygame.transform.flip(self.walk[self.walkCount//3], 1, 0)
+
+            self.walkCount += 1
+        else:
+            self.image = self.idle[self.walkCount//3]
+            
+            if self.slowIdle == 0:
+                self.slowIdle += 1
+            else:
+                self.walkCount += 1
+                self.slowIdle = 0
+
+        win.blit(self.image,coords)
+
     
     
     def move(self, target):
-        super().move()
+        super().move(target)
     
     
     def shot(self, enemies, all_sprite_list, enemy_hit_list):
-        super().shot()
+        super().shot(enemies, all_sprite_list, enemy_hit_list)
